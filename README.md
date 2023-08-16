@@ -19,7 +19,9 @@ Money-Graph can list all your invoices and send them in PDF, EXCEL, detailed inf
 
 - Business plan
 
-- Sort list by Name or Price 
+- Sort list by Name or Price
+
+- Logo
 
   
 
