@@ -1,0 +1,36 @@
+{
+  "name": "money-graph",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@types/node": "20.5.0",
+    "@types/react": "18.2.20",
+    "@types/react-dom": "18.2.7",
+    "autoprefixer": "10.4.15",
+    "bootstrap": "^5.3.1",
+    "chart.js": "^4.3.3",
+    "eslint": "8.47.0",
+    "eslint-config-next": "13.4.16",
+    "install": "^0.13.0",
+    "js-cookie": "^3.0.5",
+    "moment": "^2.29.4",
+    "next": "13.4.16",
+    "npm": "^9.8.1",
+    "postcss": "8.4.28",
+    "react": "18.2.0",
+    "react-bootstrap": "^2.8.0",
+    "react-chartjs-2": "^5.2.0",
+    "react-dom": "18.2.0",
+    "tailwindcss": "3.3.3",
+    "typescript": "5.1.6"
+  },
+  "devDependencies": {
+    "@types/js-cookie": "^3.0.3"
+  }
+}
