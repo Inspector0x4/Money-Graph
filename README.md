@@ -1,7 +1,7 @@
 
 # Money-Graph
 
-Money-Graph can list all your invoices and send them in PDF, EXEL, detailed informaitons with graphic format.
+Money-Graph can list all your invoices and send them in PDF, EXCEL, detailed informaitons with graphic format.
 
 
 ## License
@@ -18,6 +18,12 @@ Money-Graph can list all your invoices and send them in PDF, EXEL, detailed info
 - More tools
 
 - Business plan
+
+- Sort list by Name or Price
+
+- Logo
+
+  
 
 
 ## Authors
