@@ -8,6 +8,7 @@ export default function Layout({
 }) {
   return (
     <html lang="en">
+      <head><title>Money Graph</title></head>
       <body>{children}</body>
     </html>
   )
