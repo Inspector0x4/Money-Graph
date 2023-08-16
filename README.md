@@ -34,7 +34,7 @@ Money-Graph can list all your invoices and send them in PDF, EXCEL, detailed inf
 
 - [@Inspector0x4](https://github.com/Inspector0x4/)
   
-- [@Guillaume]()
+- [@ProjectMagic18](https://github.com/ProjectMagic18)
 
 
 
