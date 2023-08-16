@@ -1,4 +1,4 @@
-
+'use client'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState, useEffect } from 'react';
 import Cookie from 'js-cookie';
@@ -7,7 +7,7 @@ import Chart from 'chart.js/auto';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
-export default function Home() {
+const Home = () => {
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
   const [date, setDate] = useState('');
@@ -218,3 +218,4 @@ export default function Home() {
     </Layout>
   );
 }
+export default Home;
