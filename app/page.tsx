@@ -1,6 +1,6 @@
 'use client'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, SetStateAction } from 'react';
 import Cookie from 'js-cookie';
 import Layout from './layout';
 import Chart from 'chart.js/auto';
@@ -8,18 +8,24 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
 const Home = () => {
+  
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
   const [date, setDate] = useState('');
-  const [invoices, setInvoices] = useState([]);
+  const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [invoicesPerPage] = useState(5); 
   const [searchQuery, setSearchQuery] = useState('');
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deletingIndex, setDeletingIndex] = useState(null);
 
+  interface Invoice {
+    name: string;
+    price: string;
+    date: string;
+  }
 
-  const handleShowDeleteModal = (index) => {
+  const handleShowDeleteModal = (index: number | SetStateAction<null>) => {
     setDeletingIndex(index);
     setShowDeleteModal(true);
   };
@@ -49,11 +55,11 @@ const Home = () => {
     const config = {
       type: 'line',
       data: {
-        labels: invoices.reverse().map(invoice => invoice.date), 
+        labels: invoices.reverse().map(invoice => invoice['date']), 
         datasets: [
           {
             label: 'Price',
-            data: invoices.map(invoice => invoice.price), 
+            data: invoices.map(invoice => invoice['price']), 
             borderColor: 'blue', 
             fill: false 
           },
@@ -82,7 +88,7 @@ const Home = () => {
   }, [invoices]);
   
 
-  const handleAddInvoice = (e) => {
+  const handleAddInvoice = (e: { preventDefault: () => void; }) => {
     e.preventDefault(); 
   
     if (name.trim() !== '' && price.trim() !== '' && date.trim() !== '') {
@@ -96,7 +102,7 @@ const Home = () => {
     }
   };
 
-  const handlePageChange = (pageNumber) => {
+  const handlePageChange = (pageNumber: SetStateAction<number>) => {
     setCurrentPage(pageNumber);
   };
   const handleSearch = (e) => {
@@ -112,7 +118,7 @@ const Home = () => {
     );
     const currentInvoices = filteredInvoices.slice(indexOfFirstInvoice, indexOfLastInvoice);
 
-  const totalPrice = invoices.reduce((total, invoice) => total + parseFloat(invoice.price), 0);
+  const totalPrice = invoices.reduce((total, invoice) => total + parseFloat(invoice['price']), 0);
 
 
   return (
@@ -167,7 +173,7 @@ const Home = () => {
             {currentInvoices.reverse().map((invoice, index) => (
               <li key={index} className="list-group-item d-flex justify-content-between align-items-center">
                 <div>
-                  <strong>{invoice.name}</strong> - {invoice.price} € - {invoice.date}
+                  <strong>{invoice['name']}</strong> - {invoice['price']} € - {invoice['date']}
                 </div>
                 <button
                   className="btn btn-danger"
