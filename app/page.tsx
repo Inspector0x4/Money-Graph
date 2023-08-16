@@ -6,7 +6,7 @@ import Layout from './layout';
 import Chart from 'chart.js/auto';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-
+import { ChartConfiguration } from 'chart.js';
 const Home = () => {
   
   const [name, setName] = useState('');
@@ -17,7 +17,7 @@ const Home = () => {
   const [invoicesPerPage] = useState(5); 
   const [searchQuery, setSearchQuery] = useState('');
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [deletingIndex, setDeletingIndex] = useState(null);
+  const [deletingIndex, setDeletingIndex] = useState<number | null>(null);
 
   interface Invoice {
     name: string;
@@ -25,7 +25,7 @@ const Home = () => {
     date: string;
   }
 
-  const handleShowDeleteModal = (index: number | SetStateAction<null>) => {
+  const handleShowDeleteModal = (index: number | null) => {
     setDeletingIndex(index);
     setShowDeleteModal(true);
   };
@@ -52,7 +52,7 @@ const Home = () => {
   
 
   
-    const config = {
+    const config: ChartConfiguration<'line', string[], string> = {
       type: 'line',
       data: {
         labels: invoices.reverse().map(invoice => invoice['date']), 
@@ -63,7 +63,6 @@ const Home = () => {
             borderColor: 'blue', 
             fill: false 
           },
-          
         ]
       },
       options: {
@@ -83,8 +82,20 @@ const Home = () => {
   }
 
  
-  const ctx = document.getElementById('priceChart').getContext('2d');
-  const chart = new Chart(ctx, config);
+  const ctx = (document.getElementById('priceChart') as HTMLCanvasElement).getContext('2d');
+
+  const priceChartElement = document.getElementById('priceChart') as HTMLCanvasElement;
+  if (priceChartElement) {
+    const ctx = priceChartElement.getContext('2d');
+    if (ctx) {
+      const chart = new Chart(ctx, config);
+    } else {
+      console.error('Canvas context is null.');
+    }
+  } else {
+    console.error("Element with ID 'priceChart' not found.");
+  }
+  
   }, [invoices]);
   
 
@@ -105,7 +116,7 @@ const Home = () => {
   const handlePageChange = (pageNumber: SetStateAction<number>) => {
     setCurrentPage(pageNumber);
   };
-  const handleSearch = (e) => {
+  const handleSearch = (e: { target: { value: any; }; }) => {
     const query = e.target.value;
     setSearchQuery(query);
     setCurrentPage(1); // Reset to first page when searching
