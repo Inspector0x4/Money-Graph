@@ -7,6 +7,7 @@ import Chart from 'chart.js/auto';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { ChartConfiguration } from 'chart.js';
+import { Nav, Navbar } from 'react-bootstrap';
 const Home = () => {
   
   const [name, setName] = useState('');
@@ -18,12 +19,14 @@ const Home = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deletingIndex, setDeletingIndex] = useState<number | null>(null);
+  const [showNavCollapse, setShowNavCollapse] = useState(false);
 
   interface Invoice {
     name: string;
     price: string;
-    date: string;
+    date: Date;
   }
+  
 
   const handleShowDeleteModal = (index: number | null) => {
     setDeletingIndex(index);
@@ -45,23 +48,29 @@ const Home = () => {
   useEffect(() => {
     const storedInvoices = Cookie.get('invoices');
     if (storedInvoices) {
-      setInvoices(JSON.parse(storedInvoices));
+      const parsedInvoices: Invoice[] = JSON.parse(storedInvoices).map((invoice: Invoice) => ({
+        ...invoice,
+        date: new Date(invoice.date), 
+      }));
+      setInvoices(parsedInvoices);
     }
   }, []);
   useEffect(() => {
-  
+    
+    const sortedInvoices = [...invoices].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
   
     const config: ChartConfiguration<'line', string[], string> = {
       type: 'line',
       data: {
-        labels: invoices.reverse().map(invoice => invoice['date']), 
+        labels: sortedInvoices.map(invoice => invoice.date.toLocaleDateString('fr-FR')), 
+
         datasets: [
-          {
-            label: 'Price',
-            data: invoices.map(invoice => invoice['price']), 
-            borderColor: 'blue', 
-            fill: false 
+        {
+        label: 'Price',
+        data: sortedInvoices.map(invoice => invoice['price']), 
+        borderColor: 'blue', 
+        fill: false  
           },
         ]
       },
@@ -96,14 +105,21 @@ const Home = () => {
     console.error("Element with ID 'priceChart' not found.");
   }
   
+  const currentInvoices = sortedInvoices.slice(indexOfFirstInvoice, indexOfLastInvoice);
+
+
   }, [invoices]);
   
 
-  const handleAddInvoice = (e: { preventDefault: () => void; }) => {
-    e.preventDefault(); 
+  const handleAddInvoice = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
   
     if (name.trim() !== '' && price.trim() !== '' && date.trim() !== '') {
-      const newInvoice = { name, price, date };
+      const newInvoice = {
+        name,
+        price,
+        date: new Date(date), // Convertir en objet Date
+      };
       const newInvoices = [...invoices, newInvoice];
       setInvoices(newInvoices);
       Cookie.set('invoices', JSON.stringify(newInvoices));
@@ -119,21 +135,39 @@ const Home = () => {
   const handleSearch = (e: { target: { value: any; }; }) => {
     const query = e.target.value;
     setSearchQuery(query);
-    setCurrentPage(1); // Reset to first page when searching
+    setCurrentPage(1); 
   };
-    // Apply pagination and filtering
+    
     const indexOfLastInvoice = currentPage * invoicesPerPage;
     const indexOfFirstInvoice = indexOfLastInvoice - invoicesPerPage;
     const filteredInvoices = invoices.filter((invoice) =>
       invoice.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
-    const currentInvoices = filteredInvoices.slice(indexOfFirstInvoice, indexOfLastInvoice);
-
+  
+  
+  const currentInvoices = filteredInvoices.slice(indexOfFirstInvoice, indexOfLastInvoice);
   const totalPrice = invoices.reduce((total, invoice) => total + parseFloat(invoice['price']), 0);
-
+  const handleToggleNavCollapse = () => {
+    setShowNavCollapse(!showNavCollapse);
+  };
 
   return (
     <Layout>
+  
+  <Navbar expand="lg" bg="light" className="ms-3">
+  <Navbar.Brand href="#">🏠</Navbar.Brand>
+  <Navbar.Toggle aria-controls="navbarSupportedContent" onClick={handleToggleNavCollapse} />
+  <Navbar.Collapse id="navbarSupportedContent" className={showNavCollapse ? 'show' : ''}>
+    <Nav className="ms-auto">
+      <Nav.Link href="https://github.com/Inspector0x4/Money-Graph" target="_blank" rel="noopener noreferrer">Source</Nav.Link>
+      <Nav.Link href="https://github.com/Inspector0x4/Money-Graph/issues" target="_blank" rel="noopener noreferrer">Bug?</Nav.Link>
+    
+    </Nav>
+  </Navbar.Collapse>
+</Navbar>
+
+
+
       <div className="container mt-5">
         <h1 className="mb-4">Invoice registration</h1>
         <div className="mb-3">
@@ -159,6 +193,8 @@ const Home = () => {
             value={date}
             onChange={(e) => setDate(e.target.value)}
             placeholder="Date"
+            min="2023-01-01"
+            max="2023-12-31"
             required 
           />
           <button className="btn btn-primary mt-3" onClick={handleAddInvoice}>
@@ -181,10 +217,11 @@ const Home = () => {
         />
         <br></br>
           <ul className="list-group">
-            {currentInvoices.reverse().map((invoice, index) => (
+            {currentInvoices.map((invoice, index) => (
               <li key={index} className="list-group-item d-flex justify-content-between align-items-center">
                 <div>
-                  <strong>{invoice['name']}</strong> - {invoice['price']} € - {invoice['date']}
+                <strong>{invoice['name']}</strong> - {invoice['price']} € - {invoice.date.toLocaleDateString('fr-FR')}
+
                 </div>
                 <button
                   className="btn btn-danger"
