@@ -153,7 +153,7 @@ const Home = () => {
 
   return (
     <Layout>
-  
+  <div className="container">
   <Navbar expand="lg" bg="light" className="ms-3">
   <Navbar.Brand href="#">🏠</Navbar.Brand>
   <Navbar.Toggle aria-controls="navbarSupportedContent" onClick={handleToggleNavCollapse} />
@@ -165,7 +165,7 @@ const Home = () => {
     </Nav>
   </Navbar.Collapse>
 </Navbar>
-
+</div>
 
 
       <div className="container mt-5">
@@ -251,7 +251,7 @@ const Home = () => {
         
         {/* Footer */}
         <footer className="mt-5 text-center">
-          Created by <strong><a href='https://github.com/Inspector0x4' style={{ textDecoration: 'none', color: 'black' }}>Inspector0x4</a></strong> & <strong>Guillaume</strong>
+          Created by <strong><a href='https://github.com/Inspector0x4' style={{ textDecoration: 'none', color: 'black' }}>Inspector0x4</a></strong> & <strong><a href='https://github.com/ProjectMagic18' style={{ textDecoration: 'none', color: 'black' }}>ProjectMagic18</a></strong>
         </footer>
       </div>
       <Modal show={showDeleteModal} onHide={handleCloseDeleteModal}>
