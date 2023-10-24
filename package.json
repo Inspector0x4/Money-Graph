@@ -19,6 +19,7 @@
     "eslint-config-next": "13.4.16",
     "install": "^0.13.0",
     "js-cookie": "^3.0.5",
+    "jspdf": "^2.5.1",
     "moment": "^2.29.4",
     "next": "13.5.6",
     "npm": "^9.8.1",
