@@ -17,7 +17,7 @@ Money-Graph can list all your invoices and send them in PDF, EXCEL, detailed inf
 
 ## Roadmap
 
-- Excel & PDF format 
+- Excel & Image format 
   
 - More tools
 
