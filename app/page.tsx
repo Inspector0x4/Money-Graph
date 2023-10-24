@@ -314,19 +314,18 @@ const Home = () => {
         
 
 
-        <div className="container mt-3">
-      <canvas id="priceChart" width="400" height="200"></canvas>
-      <button className="btn btn-primary mt-3" onClick={handleAddInvoice}>
-        Add invoice
-      </button>
-      <br></br>
-      <button className="btn btn-success mt-3" onClick={exportChartAsJPG}>
+        <button className="btn btn-success " onClick={exportChartAsJPG}>
         Export Chart as JPG
       </button>
-      <br></br>
-      <button className="btn btn-primary mt-3" onClick={generatePDF}>
+    <br></br>
+    <br></br>
+      <button className="btn btn-primary" onClick={generatePDF}>
       Generate PDF of the list
     </button>
+        <div className=" ">
+      <canvas id="priceChart" width="400" height="200"></canvas>
+      
+      
     </div>
                    
 
