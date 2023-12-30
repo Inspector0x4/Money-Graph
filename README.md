@@ -1,3 +1,5 @@
+# This is a school project and does not demonstrate my full skills.
+
 
 # Money-Graph
 
